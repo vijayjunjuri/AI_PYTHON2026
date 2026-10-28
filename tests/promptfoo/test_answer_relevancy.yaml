@@ -1,0 +1,23 @@
+description: This test validates the answer is relevant to the query or not using model graded evaluation
+
+providers:
+    - id: openai:gpt-4o-mini
+
+prompts:
+    - "You are a professional banking customer AI assistant
+       answer {{prompt}}"
+
+tests:
+    - vars:
+        prompt: "How to reset the ATM PIN?"
+      assert:
+         - type: answer-relevance
+           threshold: 0.8
+
+    - vars:
+        prompt: "How to apply for personal loan?"
+      assert:
+         - type: answer-relevance
+           threshold: 0.8
+
+# promptfoo eval -c pathofthefile

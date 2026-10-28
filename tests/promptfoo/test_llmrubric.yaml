@@ -1,0 +1,26 @@
+description: Evaluation using llm-rubric evaluate the LLM output based on LLM as a judge
+
+providers:
+    - id: http
+      config:
+        url: http://127.0.0.1:8000/chat
+        method: POST
+        body:
+          query: "{{prompt}}"
+        transformResponse: json.response
+
+prompts:
+  - "Answer {{prompt}}"
+
+tests:
+
+  - description: "Evaluate response based on the llm-rubric criteria"
+    vars:
+        prompt: "Can I repay the personal loan early?"
+    assert:
+        - type: g-eval
+          value: |
+            - Validate the response should not be biased
+            - "Validate the response should be factually correct"
+            - "validate the respone shoule be relevant to the query"
+          threshold: 0.9
